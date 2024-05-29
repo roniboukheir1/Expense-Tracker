@@ -1,10 +1,12 @@
 ﻿@model Expense_Tracker.Models.Category
 
-<h1> Create </h1>
+@{
+    var breadcrumbs = ViewBag.Breadcrumbs as IEnumerable<BreadcrumbItem>;
+}
 
-<h4> Category </h4>
+@Html.Partial("_Breadcrumbs", breadcrumbs)
 
-<div class="row">
+<h2>Create category</h2><div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>

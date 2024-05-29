@@ -66,6 +66,10 @@
             "Syncfusion.EJ2.AspNet.Core": {
               "target": "Package",
               "version": "[25.2.5, )"
+            },
+            "bootstrap": {
+              "target": "Package",
+              "version": "[5.3.3, )"
             }
           },
           "imports": [

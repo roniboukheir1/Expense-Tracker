@@ -1,0 +1,53 @@
+﻿@model IEnumerable<BreadcrumbItem>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        @foreach (var item in Model)
+        {
+            if (item.IsActive)
+            {
+                <li class="breadcrumb-item active" aria-current="page">
+                    @if (item.Title == "Home")
+                    {
+                        <i class="fas fa-home"></i>
+                    }
+                    else
+                    {
+                        @item.Title
+                    }
+                </li>
+            }
+            else
+            {
+                <li class="breadcrumb-item">
+                    <a asp-action="@item.Action" asp-controller="@item.Controller" class="breadcrumb-link">
+                        @if (item.Title == "Home")
+                        {
+                            <i class="fas fa-home"></i>
+                        }
+                        else
+                        {
+                            @item.Title
+                        }
+                    </a>
+                </li>
+            }
+        }
+    </ol>
+</nav>
+
+@section Styles {
+    <style>
+        .breadcrumb a.breadcrumb-link {
+            text-decoration: none;
+            color: white;
+        }
+        .breadcrumb a.breadcrumb-link:hover {
+            color: lightgray; /* Optional: lighter color on hover */
+        }
+        .breadcrumb .active {
+            color: white;
+        }
+    </style>
+}
+

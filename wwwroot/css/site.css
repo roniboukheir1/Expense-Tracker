@@ -49,3 +49,16 @@ e-bigger{
     color: #212b36;
     border: 1px solid #fff;
 }
+
+.breadcrumb a.breadcrumb-link {
+    text-decoration: none;
+    color: white;
+}
+
+    .breadcrumb a.breadcrumb-link:hover {
+        color: lightgray; /* Optional: lighter color on hover */
+    }
+
+.breadcrumb .active {
+    color: white;
+}

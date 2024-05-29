@@ -1,23 +1,27 @@
 ﻿@model Category
 
+@{
+    var breadcrumbs = ViewBag.Breadcrumbs as IEnumerable<BreadcrumbItem>;
+}
+
+@Html.Partial("_Breadcrumbs", breadcrumbs)
+
+<h2>Edit category</h2>
+
 <h1> Edit </h1>
-
-<h4> Category </h4>
-
-
-<h1> Create </h1>
 
 <h4> Category </h4>
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="CategoryId" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class='e-btn-group e-outline'>
-                <input type="radio" id="radioleft" name="Type" value="Expense" checked="@(Model.Type == "Expense")" />
-                <label class="e-btn" for="radioleft">Expense</label>
-                <input type="radio" id="radiomiddle" name="Type" value="Income" checked="@(Model.Type == "Income")" />
-                <label class="e-btn" for="radiomiddle">Income</label>
+                <input asp-for="Type" type="radio" id="radioleft" name="Type" value="Expense" checked="@(Model.Type == "Expense")" />
+                <label class="e-btn" asp-for="Type" for="radioleft">Expense</label>
+                <input type="radio" id="radiomiddle" asp-for="Type" name="Type" value="Income" checked="@(Model.Type == "Income")" />
+                <label class="e-btn" for="radiomiddle" asp-for="Type">Income</label>
             </div>
             <div class="form-group my-3">
                 <span asp-validation-for="Title" class="text-danger"></span>
@@ -28,7 +32,7 @@
                 <span asp-validation-for="Icon" class="text-danger"></span>
             </div>
             <div class="form-group my-2">
-                <input type="submit" value="Done" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         </form>
     </div>
