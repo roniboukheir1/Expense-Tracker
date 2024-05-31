@@ -1,32 +1,41 @@
-﻿@model Expense_Tracker.Models.Category
+﻿@model Expense_Tracker.Models.Transaction
 
 @{
-    var breadcrumbs = ViewBag.Breadcrumbs as IEnumerable<BreadcrumbItem>;
+    ViewData["Title"] = "Create Transaction";
 }
 
-@Html.Partial("_Breadcrumbs", breadcrumbs)
+<h2>@ViewData["Title"]</h2>
 
-<h2>Create category</h2><div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class='e-btn-group e-outline'>
-                <input type="radio" id="radioleft" name="Type" value="Expense" checked="@(Model.Type == "Expense")" />
-                <label class="e-btn" for="radioleft">Expense</label>
-                <input type="radio" id="radiomiddle" name="Type" value="Income" checked="@(Model.Type == "Income")" />
-                <label class="e-btn" for="radiomiddle">Income</label>
-            </div>         
-            <div class="form-group my-3">
-                <span asp-validation-for="Title" class="text-danger"></span>
-                <ejs-textbox id="Title" placeholder="Title" ejs-for="Title"></ejs-textbox>
-            </div>
-            <div class="form-group mb-3">
-                <ejs-textbox id="Icon" placeholder="Icon" ejs-for="Icon"></ejs-textbox>
-                <span asp-validation-for="Icon" class="text-danger"></span>
-            </div>
-            <div class="form-group my-2">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>            
-        </form>
+<form asp-action="Create">
+    <div class="mt-5 mb-3">
+        <ejs-datepicker id="datepicker" ejs-for="Date" format="yyyy-MM-dd"></ejs-datepicker>
+        <span asp-validation-for="Date" class="text-danger"></span>
     </div>
+    <div class="mb-3">
+        <ejs-dropdownlist id="ddlCategories" ejs-for="CategoryId" dataSource="@ViewBag.Categories" placeholder="Select a Category">
+            <e-dropdownlist-fields text="TitleWithIcon" value="CategoryId"></e-dropdownlist-fields>
+        </ejs-dropdownlist>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <ejs-numerictextbox id="currency" value="10" ejs-for="Amount" format="c2"></ejs-numerictextbox>
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <div class="control_wrapper TextArea-control-section">
+            <ejs-textarea id="default" ejs-for="Note" placeholder="Enter Your Note" maxLength="50"></ejs-textarea>
+            <span asp-validation-for="Note" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <input type="submit" value="Create" class="btn btn-success" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

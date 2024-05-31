@@ -1,9 +1,13 @@
 using Expense_Tracker.Data;
 using Microsoft.EntityFrameworkCore;
-using Expense_Tracker.Services; 
+using Expense_Tracker.Services;
+using Syncfusion.Licensing;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Register Syncfusion license
+/*SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NBaF1cWGhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEFjXHxfcXZWQ2BeVkR+Vw==");
+*/
 // Add services to the container.   
 builder.Services.AddControllersWithViews();
 
@@ -26,7 +30,6 @@ else
 {
     app.UseExceptionHandler("/Home/Error");
 }
-app.UseStaticFiles();
 
 app.UseRouting();
 
@@ -34,6 +37,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
 
 app.Run();

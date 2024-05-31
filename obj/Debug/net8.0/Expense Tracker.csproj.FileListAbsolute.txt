@@ -146,3 +146,4 @@ C:\Users\abukh\source\repos\Expense Tracker\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\abukh\source\repos\Expense Tracker\bin\Debug\net8.0\Syncfusion.EJ2.dll
 C:\Users\abukh\source\repos\Expense Tracker\bin\Debug\net8.0\Syncfusion.Licensing.dll
 C:\Users\abukh\source\repos\Expense Tracker\obj\Debug\net8.0\Expense Tracker.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\abukh\source\repos\Expense Tracker\obj\Debug\net8.0\Expense Tracker.sourcelink.json

@@ -5,20 +5,24 @@ namespace Expense_Tracker.Models
 {
     public class Transaction
     {
-        //TODO: BDBD
-
         [Key]
         public int TransactionId { get; set; }
 
-        // Category Id
+        [Required]
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        
+        [ForeignKey("CategoryId")]
+        public Category? Category { get; set; }
 
+        [Required]
         public int Amount { get; set; }
-        [Column(TypeName = "nvarchar(50)")]
-        public string? Note { get; set; } 
-        
+
+        [StringLength(50)]
+        public string? Note { get; set; }
+
+        [Required]
         public DateTime Date { get; set; } = DateTime.Now;
-        
     }
 }
+
+

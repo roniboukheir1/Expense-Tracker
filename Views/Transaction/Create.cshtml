@@ -1,37 +1,40 @@
 ﻿@model Expense_Tracker.Models.Transaction
 
 @{
-    var breadcrumbs = ViewBag.Breadcrumbs as IEnumerable<BreadcrumbItem>;
+    ViewData["Title"] = "Create Transaction";
 }
 
-@Html.Partial("_Breadcrumbs", breadcrumbs)
+<h2>@ViewData["Title"]</h2>
 
-<h2>Create category</h2><div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form asp-action="Create">
+    <div class="mt-5 mb-3">
+        <ejs-datepicker id="datepicker" ejs-for="Date" format="yyyy-MM-dd"></ejs-datepicker>
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <ejs-dropdownlist id="ddlCategories" ejs-for="CategoryId" dataSource="@ViewBag.Categories" placeholder="Select a Category">
+            <e-dropdownlist-fields text="TitleWithIcon" value="CategoryId"></e-dropdownlist-fields>
+        </ejs-dropdownlist>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <ejs-numerictextbox id="currency" ejs-for="Amount" min="0" format="c0"></ejs-numerictextbox>
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <div class="control_wrapper TextArea-control-section">
+            <ejs-textarea id="default" ejs-for="Note" placeholder="Enter Your Note" maxLength="50"></ejs-textarea>
+            <span asp-validation-for="Note" class="text-danger"></span>
+        </div>
+    </div>
+        <input type="submit" value="Create" class="btn btn-success" />
+    </div>
+</form>
 
-			<div class="control-wrapper">
-				<div id="default" style='padding-top:75px;'>
-					<ejs-dropdownlist id="records" dataSource="@ViewBag.data" value="@ViewBag.value" placeholder="Select a item" allowFiltering="false" popupHeight="200px">
-					</ejs-dropdownlist>
-				</div>
-			</div>
-            <div class="form-group mb-3">
-                <ejs-textbox id="Amount" placeholder="Amount" ejs-for="Amount"></ejs-textbox>
-                <span asp-validation-for="Amount" class="text-danger"></span>
-            </div>
-            <div class="form-group my-3">
-                <span asp-validation-for="Note" class="text-danger"></span>
-                <ejs-textbox id="Note" placeholder="Note" ejs-for="Note"></ejs-textbox>
-            </div>
-            <div class="form-group my-2">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>            
-            <div class="mb-3">
-                <ejs-datetimepicker id="datetimepicker" value="@ViewBag.value" format="yyyy-MM-dd" placeholder="@Model.Date"></ejs-datetimepicker>
-            </div>
-
-		</form>
-	</div>
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -2,6 +2,7 @@
 using Expense_Tracker.Models;
 using Microsoft.AspNetCore.Mvc;
 using Expense_Tracker.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Expense_Tracker.Controllers
 {
@@ -20,33 +21,30 @@ namespace Expense_Tracker.Controllers
         {
             var breadcrumbs = _breadcrumbService.GetBreadcrumbs("Transaction", "Index", "Index");
             ViewBag.Breadcrumbs = breadcrumbs;
-            List<Transaction> transactions = _context.Transactions.ToList();
+            var transactions = _context.Transactions.Include(t => t.Category).ToList();
             return View(transactions);
         }
 
-        // GET: Category/Create
         [HttpGet]
         public IActionResult Create()
         {
             var breadcrumbs = _breadcrumbService.GetBreadcrumbs("Transaction", "Create", "Create");
             ViewBag.Breadcrumbs = breadcrumbs;
-
-            return View(new Category());
+            GetCategories();
+            return View(new Transaction());
         }
 
-        // POST: Category/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Transaction transaction)
         {
             if (ModelState.IsValid)
             {
-
                 _context.Add(transaction);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            return View();
+            return View(transaction);
         }
 
         [HttpGet]
@@ -56,38 +54,71 @@ namespace Expense_Tracker.Controllers
             {
                 return NotFound();
             }
+
             var breadcrumbs = _breadcrumbService.GetBreadcrumbs("Transaction", "Edit", "Edit");
             ViewBag.Breadcrumbs = breadcrumbs;
-            Transaction? transaction= _context.Transactions.Find(id);
+
+            var transaction = _context.Transactions.Find(id);
             if (transaction == null)
             {
                 return NotFound();
             }
+            GetCategories();
             return View(transaction);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Transaction transaction)
+        public IActionResult Edit(int id, Transaction transaction)
         {
+
+            if(id != transaction.TransactionId)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Update(transaction);
+                var existingTransaction = _context.Transactions.Find(id);
+                if (existingTransaction == null)
+                    return NotFound();
+                existingTransaction.CategoryId = transaction.CategoryId;
+                existingTransaction.Amount = transaction.Amount;
+                existingTransaction.Note = transaction.Note;
+                existingTransaction.Date = transaction.Date;
+                _context.Update(existingTransaction);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
+            GetCategories();
             return View(transaction);
+            /*            if(ModelState.IsValid)
+                        {
+                            _context.Update(transaction);
+                            _context.SaveChanges();
+                            return RedirectToAction(nameof(Index));
+                        }
+                        return View(transaction);
+            */
         }
 
         public IActionResult Delete(int id)
         {
-            Transaction? transaction= _context.Transactions.Find(id);
+            var transaction = _context.Transactions.Find(id);
             if (transaction == null)
             {
                 return NotFound();
             }
             _context.Transactions.Remove(transaction);
             _context.SaveChanges();
-            return RedirectToAction("Index", "Category");
+            return RedirectToAction(nameof(Index));
+        }
+
+        [NonAction]
+        private void GetCategories()
+        {
+            List<Category> categories = _context.Categories.ToList();
+            ViewBag.Categories = categories;
         }
     }
 }
